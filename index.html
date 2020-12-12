@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.24.1/phaser.min.js"
+      integrity="sha512-HY/qPTJqpvoNGRufGPn4Tl7duHSam8NfrfTZUHyn5M39oEBcq8p6IeGBE9e+AupikS4Utt+uJhSgG3FYZp/yxA=="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+
+      function showModal(killed, killer, aliveCharacters, cb) {
+        // showModal( 0, 1, [2, 3, 4], cb to resume the game)
+        console.log(killed, killer, aliveCharacters);
+        setTimeout(cb, 2000);
+      }
+
+        var map = [
+            [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0,  0, -1, -1,  0,  0,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ 0,  0,  0,  0, -1, -1,  0,  0,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ 0,  0,  0,  0, -1, -1,  0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0,  0, -1, -1,  0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ 0,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1, -1, -1, -1, -1, -1,  0,  0,  0,  0, -1,  0,  0,  0,  0, -1,  0,  0, -1, -1],
+            [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1,  0,  0,  0, -1, -1,  0,  0,  0,  0, -1,  0,  0,  0,  0, -1,  0,  0, -1, -1],
+            [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1,  0,  0,  0, -1, -1,  0,  0,  0,  0, -1, -1, -1, -1, -1, -1,  0,  0, -1, -1],
+            [ 0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1,  0,  0,  0, -1, -1,  0,  0,  0,  0, -1,  0,  0,  0,  0, -1,  0,  0, -1, -1],
+            [ 0,  0, -1, -1, -1,  0,  0,  0,  0,  0,  0, -1, -1,  0,  0,  0, -1, -1,  0,  0,  0,  0, -1,  0,  0,  0,  0, -1,  0,  0, -1, -1],
+            [ 0,  0,  0,  0, -1, -1, -1, -1,  0,  0,  0, -1, -1,  0,  0,  0, -1, -1,  0,  0,  0,  0, -1,  0,  0,  0,  0, -1,  0,  0, -1, -1],
+            [ 0,  0, -1, -1, -1, -1, -1,  0,  0,  0,  0, -1, -1,  0,  0,  0, -1, -1,  0,  0,  0,  0, -1,  0,  0,  0,  0, -1,  0,  0, -1, -1],
+            [ 0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ 0,  0,  0, -1, -1, -1, -1, -1,  0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0, -1, -1,  0,  0,  0, -1,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0,  0,  0, -1,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0, -1, -1,  0,  0,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ 0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0, -1, -1,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0, -1, -1,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0, -1, -1,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0, -1, -1, -1, -1, -1, -1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0, -1,  0,  0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1, -1],
+            [ 0,  0,  0, -1,  0,  0,  0,  0, -1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1, -1],
+            [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+        ]
+
+    const SIDE = 768;
+    const CHAR_LIM = 8;
+    const PROXIMITY = 18;
+
+    const mapLocations = [];
+
+    for (let i=0; i<map.length; i++) {
+        for (let j=0; j<map[i].length; j++) {
+            if (map[i][j] === -1) mapLocations.push({x: i*SIDE/32 + 16, y: j*SIDE/32 + 16, i, j});
+        }
+    }
+
+    const characters = [];
+
+    function getRandomLocation() {
+        const pos = Math.round(Math.random() * 371)
+        return {...mapLocations[pos], pos};
+    }
+
+    function getLocation(i, j) {
+        return {y: i*SIDE/32 + 16, x: j*SIDE/32 + 16, i, j};
+    }
+
+    const procFinished = [];
+    const killers = {};
+
+      var config = {
+        type: Phaser.WEBGL,
+        width: SIDE,
+        height: SIDE,
+        backgroundColor: "#2d2d2d",
+        parent: "phaser-example",
+        pixelArt: true,
+        scene: {
+          preload: preload,
+          create: create,
+          update: update,
+        },
+      };
+
+      var controls;
+      let gameRunning = true;
+
+      var game = new Phaser.Game(config);
+
+      function preload() {
+        this.load.image("bg", ["assets/map.png", "assets/map-n.png"]);
+
+        this.load.image("0-alv", ["characters/0/alive.png", "characters/0/alive-n.png"]);
+        this.load.image("1-alv", ["characters/1/alive.png", "characters/1/alive-n.png"]);
+        this.load.image("2-alv", ["characters/2/alive.png", "characters/2/alive-n.png"]);
+        this.load.image("3-alv", ["characters/3/alive.png", "characters/3/alive-n.png"]);
+        this.load.image("4-alv", ["characters/4/alive.png", "characters/4/alive-n.png"]);
+        this.load.image("5-alv", ["characters/5/alive.png", "characters/5/alive-n.png"]);
+        this.load.image("6-alv", ["characters/6/alive.png", "characters/6/alive-n.png"]);
+        this.load.image("7-alv", ["characters/7/alive.png", "characters/7/alive-n.png"]);
+
+        this.load.image("0-ded", ["characters/0/dead.png", "characters/0/dead-n.png"]);
+        this.load.image("1-ded", ["characters/1/dead.png", "characters/1/dead-n.png"]);
+        this.load.image("2-ded", ["characters/2/dead.png", "characters/2/dead-n.png"]);
+        this.load.image("3-ded", ["characters/3/dead.png", "characters/3/dead-n.png"]);
+        this.load.image("4-ded", ["characters/4/dead.png", "characters/4/dead-n.png"]);
+        this.load.image("5-ded", ["characters/5/dead.png", "characters/5/dead-n.png"]);
+        this.load.image("6-ded", ["characters/6/dead.png", "characters/6/dead-n.png"]);
+        this.load.image("7-ded", ["characters/7/dead.png", "characters/7/dead-n.png"]);
+      }
+
+      function create() {
+        var light = this.lights.addLight(0, 0, 200);
+
+        this.lights.enable().setAmbientColor(0x000000);
+
+        this.input.on("pointermove", function (pointer) {
+          const X = this.cameras.main.scrollX + pointer.x;
+          const Y = this.cameras.main.scrollY + pointer.y;
+
+          light.x = X;
+          light.y = Y;
+
+          if (characters.length === CHAR_LIM) {
+            // Initialized and all...
+
+            const deads = characters.filter(c=>!c.alive && !procFinished.includes(c.id));
+
+            for (let d of deads) {
+              if (Math.abs(d.l.x - X) <= PROXIMITY && Math.abs(d.l.y - Y) <= PROXIMITY) {
+                procFinished.push(d.id);
+                gameRunning = false;
+                showModal(d.id, killers[d.id], characters.filter(c => c.alive).map(c => c.id), () => {
+                  gameRunning = true;
+                  d.sprite.destroy();
+                });
+              }
+            }
+          }
+        });
+
+        this.add
+          .sprite(SIDE / 2, SIDE / 2, "bg")
+          .setPipeline("Light2D")
+          .setAlpha(1);
+
+        for (let i=0; i<CHAR_LIM; i++) {
+            const l = getRandomLocation();
+
+            const sprite = this.add.sprite(l.y, l.x, `${i}-alv`)
+            .setScale(0.15)
+            .setPipeline("Light2D")
+            .setAlpha(1);
+
+            characters.push({sprite, alive: true, l, dir: "x", id: characters.length})
+        }
+      }
+
+      var ran = 0;
+
+      function isValidLocation(a, b) {
+          return a>0 && b>0 && a<SIDE && b<SIDE;
+      }
+
+      const pr = (time) => new Promise((resolve) => setTimeout(resolve, time));
+
+      async function update(time, delta) {
+        if (!gameRunning) return;
+
+        if (ran !== 4) {
+            ran += 1;
+            return;
+        }
+
+        characters.forEach((character, index) => {
+          if (!character.alive) return;
+
+            const {i, j} = character.l;
+
+            let iKnowLoc = null;
+
+            if (character.dir === "w" && isValidLocation(i-1, j) && map[i-1][j] === -1) { iKnowLoc = {i: i-1, j: j}; }
+            else if (character.dir === "s" && isValidLocation(i+1, j) && map[i+1][j] === -1) { iKnowLoc = {i: i+1, j: j}; }
+            else if (character.dir === "a" && isValidLocation(i, j-1) && map[i][j-1] === -1) { iKnowLoc = {i: i, j: j-1}; }
+            else if (character.dir === "d" && isValidLocation(i, j+1) && map[i][j+1] === -1) { iKnowLoc = {i: i, j: j+1}; }
+
+            const possibleLocations = [];
+
+            for (let p=i-1; p<=i+1; p++) {
+                for (let q=j-1; q<=j+1; q++) {
+                    if (p<0 || q<0 || p >= SIDE || q >= SIDE) continue;
+                    if (map[p][q] === -1) possibleLocations.push({i: p, j: q});
+                }
+            }
+
+            let killLoc = null;
+
+            const charLox = characters.filter((b, z) => b.alive && z !== index).map(c=>({i: c.l.i, j: c.l.j, id: c.id}));
+
+            for (let u=0; u<possibleLocations.length; u++) {
+              const dex = charLox.findIndex(x=>x.i === possibleLocations[u].i && x.j === possibleLocations[u].j);
+              if (dex != -1 && Math.random() * 800 / CHAR_LIM < 1) {
+                console.log(characters[index].id, "will kill", characters[charLox[dex].id].id);
+                killers[characters[charLox[dex].id].id] = characters[index].id;
+                characters[charLox[dex].id].sprite.setTexture(`${characters[charLox[dex].id].id}-ded`);
+                characters[charLox[dex].id].alive = false;
+                killLoc = {i: characters[charLox[dex].id].l.i, j: characters[charLox[dex].id].l.j};
+              }
+            }
+
+            const r = Math.floor(Math.random() * possibleLocations.length);
+            const decidedLocation = killLoc || iKnowLoc || possibleLocations[r];
+
+            character.l = getLocation(decidedLocation.i, decidedLocation.j);
+
+            character.sprite.setPosition(character.l.x, character.l.y);
+
+            // if (i === character.l.i - 1) character.dir = "s";
+            // else if (i === character.l.i + 1) character.dir = "w";
+            // else if (j === character.l.j - 1) character.dir = "a";
+            // else if (j === character.l.j + 1) character.dir = "d";
+        });
+
+        ran = 0;
+      }
+    </script>
+  </body>
+</html>
