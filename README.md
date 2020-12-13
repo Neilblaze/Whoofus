@@ -1,7 +1,7 @@
 # Whoofus?
 Cool stuff ⚔️
 
-Amidstus is a single user game. Where user will be a detective and he'll focus on each and every character's activities and try to save characters from being killed by an imposter.
+Whoofus is a single user game. Where user will be a detective and he'll focus on each and every character's activities and try to save characters from being killed by an imposter.
 
 
 
