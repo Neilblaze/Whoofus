@@ -59,6 +59,13 @@ The game is abide by few rules :-
 - Since the killer will be on the run, so if you miss, you <b>LOSE</b>! 😞
 - And as always, activeness is the sole key if you want to <b>WIN</b>! 😎🏆
 
+<br />
+<p align="center">
+  <a href="whoof.us">
+    <img src="https://github.com/Neilblaze/Whoofus/blob/main/images/bg01.gif" >
+  </a>
+</p>
+
 ### Built With
 
 * [Phaser Js](https://phaser.io/)
