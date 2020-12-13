@@ -35,6 +35,7 @@
         <div class="flex justify-between items-center pb-3">
           <p v-if="won" class="text-2xl font-bold">Caught The Murderer!</p>
           <p v-else-if="lost" class="text-2xl font-bold">Oops, Murderer Ran!</p>
+          <p v-else-if="gameOver" class="text-2xl font-bold">Game Over! ☠</p>
           <p v-else class="text-2xl font-bold">Who Did It?!</p>
           <!-- <div class="modal-close cursor-pointer z-50">
             <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
@@ -43,11 +44,12 @@
           </div> -->
         </div>
 
-        <img class="absolute top-4 right-4 h-20" :src="'/characters/' + killed + '/dead.png'" />
+        <img v-if="!gameOver" class="absolute top-4 right-4 h-20" :src="'/characters/' + killed + '/dead.png'" />
 
         <!--Body-->
         <p v-if="won" class="mb-5">{{ name(killed) }} was found dead.<br/> {{ name(killer) }} was the murderer.</p>
         <p v-else-if="lost" class="mb-5">{{ name(killed) }} was found dead.<br/> {{ name(killer) }} was the murderer.</p>
+        <p v-else-if="gameOver" class="mb-5">Everyone but the murderer are dead.<br/>You should retry this game.</p>
         <p v-else class="mb-5">{{ name(killed) }} was found dead.<br/> Who do you think did it?</p>
         
         <div v-if="won" class="flex w-full mb-2">
@@ -64,14 +66,16 @@
             <div class="text-sm pt-2">Being a detective 🔍 is difficult. It takes skills which let you accurately estimate everyone's moves. You should be always one step before them ⚡</div>
           </div>
         </div>
+        <div v-else-if="gameOver"></div>
         <ul v-else class="w-full mb-2">
           <li class="py-2 px-4 rounded mb-1 cursor-pointer" @click="optionSelected(option)" :style="{'backgroundColor': color(option)}" v-for="option of options">{{ name(option) }}</li>
         </ul>
-        
 
         <!--Footer-->
         <div class="flex justify-end pt-2">
+          <button v-if="lost" @click="playAgain" class="px-4 bg-transparent py-2 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Restart</button>
           <button v-if="won" @click="playAgain" class="modal-close px-4 bg-indigo-500 py-2 rounded-lg text-white hover:bg-indigo-400">Play Again?</button>
+          <button v-if="gameOver" @click="playAgain" class="modal-close px-4 bg-indigo-500 py-2 rounded-lg text-white hover:bg-indigo-400">Play Again?</button>
           <button v-if="lost" @click="retry" class="modal-close px-4 bg-indigo-500 py-2 rounded-lg text-white hover:bg-indigo-400">Continue?</button>
         </div>
         
@@ -100,6 +104,7 @@
           modalOpen: false,
           won: false,
           lost: false,
+          gameOver: false,
         },
         methods: {
           toggleModal: function() {
@@ -139,6 +144,10 @@
           },
           playAgain: function() {
             window.location.reload();
+          },
+          makeGameOver: function() {
+            this.gameOver = true;
+            this.toggleModal();
           }
         }
       });
@@ -368,6 +377,10 @@
                   characters[charLox[dex].id].sprite.setTexture(`${characters[charLox[dex].id].id}-ded`);
                   characters[charLox[dex].id].alive = false;
                   killLoc = {i: characters[charLox[dex].id].l.i, j: characters[charLox[dex].id].l.j};
+
+                  if (charLox.length === 2) {
+                    modalInstance.makeGameOver();
+                  }
                 }
               }
             }
