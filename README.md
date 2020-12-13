@@ -144,8 +144,6 @@ Distributed under the Apache License 2.0. See `LICENSE` for more information.
 
 This project is maintained by ➡️ [Pratyay Banerjee](https://github.com/Neilblaze) ⚡, [Sandipan Dey](https://github.com/sandipndev) 🍕, [Saif Ali](https://github.com/fias786) 😎
 
-Crafted with ♥ for [WhoDoneItHacks?](https://whodoneithacks.devpost.com/) by [Pratyay Banerjee](https://github.com/neilblaze), [Sandipan Dey](https://github.com/sandipndev) and [Saif Ali](https://github.com/fias786)
-
 <br />
 <p align="center">
   <a href="https://bit.ly/3ggWEFt">
