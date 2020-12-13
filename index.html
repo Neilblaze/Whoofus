@@ -58,6 +58,7 @@
     const CHAR_LIM = 8;
     const PROXIMITY = 18;
     const LOGIC_EVERY = 4;
+    const KILL_POSSIBLE_AFTER = 10000;
 
     const mapLocations = [];
 
@@ -95,7 +96,7 @@
         },
       };
 
-      var controls;
+      var controls, startedAt;
       let gameRunning = true;
 
       var game = new Phaser.Game(config);
@@ -169,6 +170,8 @@
 
             characters.push({sprite, alive: true, l, dir: "x", id: characters.length})
         }
+
+        startedAt = Date.now();
       }
 
       var ran = LOGIC_EVERY;
@@ -220,16 +223,18 @@
 
             let killLoc = null;
 
-            const charLox = characters.filter((b, z) => b.alive && z !== index).map(c=>({i: c.l.i, j: c.l.j, id: c.id}));
+            if (Date.now() - startedAt >= KILL_POSSIBLE_AFTER){
+              const charLox = characters.filter((b, z) => b.alive && z !== index).map(c=>({i: c.l.i, j: c.l.j, id: c.id}));
 
-            for (let u=0; u<possibleLocations.length; u++) {
-              const dex = charLox.findIndex(x=>x.i === possibleLocations[u].i && x.j === possibleLocations[u].j);
-              if (dex != -1 && Math.random() * 800 / CHAR_LIM < 1) {
-                console.log(characters[index].id, "will kill", characters[charLox[dex].id].id);
-                killers[characters[charLox[dex].id].id] = characters[index].id;
-                characters[charLox[dex].id].sprite.setTexture(`${characters[charLox[dex].id].id}-ded`);
-                characters[charLox[dex].id].alive = false;
-                killLoc = {i: characters[charLox[dex].id].l.i, j: characters[charLox[dex].id].l.j};
+              for (let u=0; u<possibleLocations.length; u++) {
+                const dex = charLox.findIndex(x=>x.i === possibleLocations[u].i && x.j === possibleLocations[u].j);
+                if (dex != -1 && Math.random() * 800 / CHAR_LIM < 1) {
+                  console.log(characters[index].id, "will kill", characters[charLox[dex].id].id);
+                  killers[characters[charLox[dex].id].id] = characters[index].id;
+                  characters[charLox[dex].id].sprite.setTexture(`${characters[charLox[dex].id].id}-ded`);
+                  characters[charLox[dex].id].alive = false;
+                  killLoc = {i: characters[charLox[dex].id].l.i, j: characters[charLox[dex].id].l.j};
+                }
               }
             }
 
