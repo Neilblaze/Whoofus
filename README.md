@@ -8,7 +8,7 @@ Amidstus is a single user game. Where user will be a detective and focus on each
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the Apache License. See `LICENSE` for more information.
 
 
 
