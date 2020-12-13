@@ -4,19 +4,153 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+      .modal {
+        transition: opacity 0.25s ease;
+      }
+      body.modal-active {
+        overflow-x: hidden;
+        overflow-y: visible !important;
+      }
+    </style>
   </head>
-  <body>
+  <body class="bg-indigo-600 flex items-center justify-center h-screen">
+    <!--Modal-->
+  <div id="modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    
+    <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+      
+      <!-- <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+          <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+        </svg>
+        <span class="text-sm">(Esc)</span>
+      </div> -->
+
+      <!-- Add margin if you want to see some of the overlay behind the modal-->
+      <div class="relative modal-content py-4 text-left px-6">
+        <!--Title-->
+        <div class="flex justify-between items-center pb-3">
+          <p v-if="won" class="text-2xl font-bold">Caught The Murderer!</p>
+          <p v-else-if="lost" class="text-2xl font-bold">Oops, Murderer Ran!</p>
+          <p v-else class="text-2xl font-bold">Who Did It?!</p>
+          <!-- <div class="modal-close cursor-pointer z-50">
+            <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+              <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+            </svg>
+          </div> -->
+        </div>
+
+        <img class="absolute top-4 right-4 h-20" :src="'/characters/' + killed + '/dead.png'" />
+
+        <!--Body-->
+        <p v-if="won" class="mb-5">{{ name(killed) }} was found dead.<br/> {{ name(killer) }} was the murderer.</p>
+        <p v-else-if="lost" class="mb-5">{{ name(killed) }} was found dead.<br/> {{ name(killer) }} was the murderer.</p>
+        <p v-else class="mb-5">{{ name(killed) }} was found dead.<br/> Who do you think did it?</p>
+        
+        <div v-if="won" class="flex w-full mb-2">
+          <img class="mr-4 h-20" src="/assets/winner.png" />
+          <div>
+            <div>Congratulations! 🎊 You won!</div>
+            <div class="text-sm pt-2">You have been a great detective 🔍. Being an amateur detective takes more than wearing a trench coat and fedora. You've got the skills ⚡</div>
+          </div>
+        </div>
+        <div v-else-if="lost" class="flex w-full mb-2">
+          <img class="mr-4 h-20" src="/assets/sadface.png" />
+          <div>
+            <div>Oops! 😜 You lost!</div>
+            <div class="text-sm pt-2">Being a detective 🔍 is difficult. It takes skills which let you accurately estimate everyone's moves. You should be always one step before them ⚡</div>
+          </div>
+        </div>
+        <ul v-else class="w-full mb-2">
+          <li class="py-2 px-4 rounded mb-1 cursor-pointer" @click="optionSelected(option)" :style="{'backgroundColor': color(option)}" v-for="option of options">{{ name(option) }}</li>
+        </ul>
+        
+
+        <!--Footer-->
+        <div class="flex justify-end pt-2">
+          <button v-if="won" @click="playAgain" class="modal-close px-4 bg-indigo-500 py-2 rounded-lg text-white hover:bg-indigo-400">Play Again?</button>
+          <button v-if="lost" @click="retry" class="modal-close px-4 bg-indigo-500 py-2 rounded-lg text-white hover:bg-indigo-400">Continue?</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.24.1/phaser.min.js"
       integrity="sha512-HY/qPTJqpvoNGRufGPn4Tl7duHSam8NfrfTZUHyn5M39oEBcq8p6IeGBE9e+AupikS4Utt+uJhSgG3FYZp/yxA=="
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script>
+      const bodyColors = ["#e5464b", "#5871ea", "#33cb07", "#ebc506", "#940ae3", "#fe06d6", "#10f3e0", "#d3621d"];
+      const bodyNames = ["Red", "Blue", "Green", "Yellow", "Vio", "Purp", "Teal", "Orange"];
+
+      document.addEventListener("DOMContentLoaded", () => {
+
+      const modalInstance = new Vue({
+        el: "#modal",
+        data: {
+          options: [],
+          killed: 0,
+          killer: 0,
+          cb: null,
+          modalOpen: false,
+          won: false,
+          lost: false,
+        },
+        methods: {
+          toggleModal: function() {
+            const body = document.querySelector('body')
+            const modal = document.querySelector('.modal')
+            modal.classList.toggle('opacity-0')
+            modal.classList.toggle('pointer-events-none')
+            body.classList.toggle('modal-active')
+
+            this.modal = !this.modal;
+          },
+          name: function(i) {
+            return bodyNames[i];
+          },
+          color: function(i) {
+            return bodyColors[i];
+          },
+          optionSelected: function(o) {
+            if (o === this.killer) {
+              this.playWon();
+            } else {
+              this.playLost();
+            }
+          },
+          playWon: function() {
+            this.won = true;
+            console.log("Won!");
+          },
+          playLost: function() {
+            this.lost = true;
+            console.log("Lost!");
+          },
+          retry: function() {
+            this.lost = false;
+            this.toggleModal();
+            this.cb();
+          },
+          playAgain: function() {
+            window.location.reload();
+          }
+        }
+      });
 
       function showModal(killed, killer, aliveCharacters, cb) {
         // showModal( 0, 1, [2, 3, 4], cb to resume the game)
         console.log(killed, killer, aliveCharacters);
-        setTimeout(cb, 2000);
+        modalInstance.options = aliveCharacters;
+        modalInstance.killed = killed;
+        modalInstance.killer = killer;
+        modalInstance.cb = cb;
+        modalInstance.toggleModal();
       }
 
         var map = [
@@ -126,7 +260,7 @@
       function create() {
         var light = this.lights.addLight(0, 0, 200);
 
-        this.lights.enable().setAmbientColor(0xffffff);
+        this.lights.enable().setAmbientColor(0x000000);
 
         this.input.on("pointermove", function (pointer) {
           if (!gameRunning) return;
@@ -251,6 +385,8 @@
 
         ran = 0;
       }
+
+    });
     </script>
   </body>
 </html>
