@@ -57,6 +57,7 @@
     const SIDE = 768;
     const CHAR_LIM = 8;
     const PROXIMITY = 18;
+    const LOGIC_EVERY = 4;
 
     const mapLocations = [];
 
@@ -124,9 +125,11 @@
       function create() {
         var light = this.lights.addLight(0, 0, 200);
 
-        this.lights.enable().setAmbientColor(0x000000);
+        this.lights.enable().setAmbientColor(0xffffff);
 
         this.input.on("pointermove", function (pointer) {
+          if (!gameRunning) return;
+
           const X = this.cameras.main.scrollX + pointer.x;
           const Y = this.cameras.main.scrollY + pointer.y;
 
@@ -168,7 +171,7 @@
         }
       }
 
-      var ran = 0;
+      var ran = LOGIC_EVERY;
 
       function isValidLocation(a, b) {
           return a>0 && b>0 && a<SIDE && b<SIDE;
@@ -179,13 +182,23 @@
       async function update(time, delta) {
         if (!gameRunning) return;
 
-        if (ran !== 4) {
+        if (ran !== LOGIC_EVERY) {
             ran += 1;
+
+            characters.forEach(character => {
+              if (!character.alive) return;
+              
+              character.sprite.x += (character.l.x - character.sprite.x)/LOGIC_EVERY;
+              character.sprite.y += (character.l.y - character.sprite.y)/LOGIC_EVERY;
+            })
+
             return;
         }
 
         characters.forEach((character, index) => {
           if (!character.alive) return;
+
+            character.sprite.setPosition(character.l.x, character.l.y);
 
             const {i, j} = character.l;
 
@@ -224,8 +237,6 @@
             const decidedLocation = killLoc || iKnowLoc || possibleLocations[r];
 
             character.l = getLocation(decidedLocation.i, decidedLocation.j);
-
-            character.sprite.setPosition(character.l.x, character.l.y);
 
             // if (i === character.l.i - 1) character.dir = "s";
             // else if (i === character.l.i + 1) character.dir = "w";
