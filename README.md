@@ -39,7 +39,7 @@
     <img src="https://raw.githubusercontent.com/Neilblaze/Whoofus/main/images/icons/favicon.png" width="150px" height="150px" alt="Whoofus" >
   </a>
 
-<b>Whoofus</b> is a single-player TPF (Third person View) sluth game based on [phaser](https://phaser.io) js, where the crux of the matter is that you need to be at utmost alert to find out the killer! Immersify yourself as a Detective 🕵️‍♂️🔎 , & solve the mystery to find out who of us did it! There are 8 characters roaming about this map, moving about. There are walkways and pathways in which they can meet one another. When they meet, one of them can either kill the other one, or they could just pass by each other. When there is a murder, as a detective, your task is to find out who is the murderer of that specific dead body. Whoofus is easy to play & requires no custom application/software installation. Just click on [View Demo](https://whoof.us) & directly play on the browser! 
+<b>Whoofus</b> is a single-player TPF (Third person View) sleuth game based on [phaser](https://phaser.io) js, where the crux of the matter is that you need to be at utmost alert to find out the killer! Immersify yourself as a Detective 🕵️‍♂️🔎 , & solve the mystery to find out who of us did it! There are 8 characters roaming about this map, moving about. There are walkways and pathways in which they can meet one another. When they meet, one of them can either kill the other one, or they could just pass by each other. When there is a murder, as a detective, your task is to find out who is the murderer of that specific dead body. Whoofus is easy to play & requires no custom application/software installation. Just click on [View Demo](https://whoof.us) & directly play on the browser! 
 
 
 
