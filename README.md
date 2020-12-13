@@ -62,7 +62,7 @@ The game is abide by few rules :-
 <br />
 <p align="center">
   <a href="whoof.us">
-    <img src="https://github.com/Neilblaze/Whoofus/blob/main/images/bg01.gif" >
+    <img src="https://github.com/Neilblaze/Whoofus/blob/main/images/bg01.gif" width="450px" height="450px">
   </a>
 </p>
 
