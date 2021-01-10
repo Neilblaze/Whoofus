@@ -161,7 +161,9 @@ This project is maintained by ➡️ [Pratyay Banerjee](https://github.com/Neilb
 <p align="center">
   <a href="https://vercel.com">
     <img src="https://raw.githubusercontent.com/Neilblaze/Anyxz/c805c8727a84c4fd1aba8d3a52d30412acaa9524/assets/powered-by-vercel.svg" >
+  </a>&nbsp;
+  <a href="https://cloud.digitalocean.com/apps/new?repo=https://github.com/Neilblaze/Whoofus">
+    <img src="https://www.deploytodo.com/do-btn-blue-ghost.svg" >
   </a>
 </p>
 
-[![Deploy to DO](https://www.deploytodo.com/do-btn-blue-ghost.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/Neilblaze/Whoofus)
