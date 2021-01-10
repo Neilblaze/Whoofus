@@ -163,3 +163,5 @@ This project is maintained by ➡️ [Pratyay Banerjee](https://github.com/Neilb
     <img src="https://raw.githubusercontent.com/Neilblaze/Anyxz/c805c8727a84c4fd1aba8d3a52d30412acaa9524/assets/powered-by-vercel.svg" >
   </a>
 </p>
+
+[![Deploy to DO](https://www.deploytodo.com/do-btn-blue-ghost.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/Neilblaze/Whoofus)
