@@ -75,6 +75,7 @@ The game is abide by few rules :-
 * [Bootstrap](https://getbootstrap.com/)
 * [Tailwind CSS](https://tailwindcss.com/)
 * [jQuery](https://jquery.com/)
+* [CSS](https://www.scaler.com/topics/css/)  
 
 - Deployed on Vercel. Thanks to [MLH](https://mlh.io/) for providing free learning resources!
 
